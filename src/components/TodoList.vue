@@ -9,13 +9,14 @@
     <div
       class="column-holder flex-1"
       @dragover.prevent="onDragOverColumn($event, status)"
-      @drop="onDrop($event, status)">
+      @drop="onDrop(status)">
       <TodoItem
         v-for="(task, index) in todoStore.tasksByStatus[status]"
         :key="task.id"
         :task="task"
         :index="index"
         draggable="true"
+        :class="{'dragged': draggedTask?.id == task.id }"
         @dragstart="onDragStart(task, index)"
         @dragover.prevent="onDragOverTask($event, index)"
       /> 
@@ -62,8 +63,11 @@
     dropIndex.value = isBefore ? index : index + 1;
   };
 
-  const onDrop = (event, status) => {
+  const onDrop = (status) => {
     todoStore.updateTaskStatus(draggedTask.value, status, dropIndex.value);
+    draggedTask.value = null;
+    draggedIndex.value = null;
+    dragging.value = false;
   };
 </script>
 

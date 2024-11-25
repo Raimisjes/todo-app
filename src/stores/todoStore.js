@@ -25,7 +25,7 @@ export const useTodoStore = defineStore('todoStore', () => {
 
       statuses.value = response.data.columns;
       authors.value = response.data.authors;
-      tasks.value = response.data.tasks.splice(0, 5);
+      tasks.value = response.data.tasks;
     } catch (error) {
       console.error('Error fetching todos:', error);
     }

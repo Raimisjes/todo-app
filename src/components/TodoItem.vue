@@ -50,6 +50,11 @@ const removeTask = (id) => {
  .card {
   cursor: pointer;
 
+  &.dragged {
+    transform: rotate(2deg);
+    cursor: grabbing;
+    opacity: 0.8;
+  }
   > * {
     text-align: left;
   }
