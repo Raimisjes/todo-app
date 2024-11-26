@@ -9,19 +9,31 @@ export const useTodoStore = defineStore('todoStore', () => {
   const statuses = ref([]);
   const tasks = ref([]);
   let confirmRemoveID = ref('');
+  let filterTitle = ref('');
+  let filterAuthor = ref('');
 
   const tasksByStatus = computed(() =>
-    statuses.value.reduce((acc, status) => {
-      acc[status] = tasks.value.filter((task) => task.current_column
-      === status);
-      return acc;
+    statuses.value.reduce((col, status) => {
+      col[status] = tasks.value.filter((task) => {
+        task.current_column=== status
+        const matchesStatus = task.current_column === status;
+        const matchesTitle = filterTitle.value
+          ? task.title.toLowerCase().includes(filterTitle.value.toLowerCase())
+          : true;
+        const matchesAuthor = filterAuthor.value
+          ? task.author_id === filterAuthor.value
+          : true;
+  
+        return matchesStatus && matchesTitle && matchesAuthor;
+      });
+      return col;
     }, {})
   );
 
   // Actions
   const fetchTodoData = async () => {
     try {
-      const response = await axios.get('todoData.json');
+      const response = await axios.get('/todoData.json');
 
       statuses.value = response.data.columns;
       authors.value = response.data.authors;
@@ -96,6 +108,8 @@ export const useTodoStore = defineStore('todoStore', () => {
     updateTaskStatus,
     removeTask,
     createTask,
+    filterTitle,
+    filterAuthor
   };
 });
 
