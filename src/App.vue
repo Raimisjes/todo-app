@@ -1,10 +1,12 @@
 <script setup>
 import TodoList from './components/TodoList.vue';
+import CreateTodoForm from './components/CreateTodoForm.vue';
 </script>
 
 <template>
   <div class="h-full">
     <h1 class="text-center text-4xl font-bold mb-4">To-Do List</h1>
+    <CreateTodoForm />
     <div class="wrapper">
       <div class="list-holder gap-2 h-full">
         <TodoList />

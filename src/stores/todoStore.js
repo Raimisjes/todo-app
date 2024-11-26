@@ -69,8 +69,25 @@ export const useTodoStore = defineStore('todoStore', () => {
     }
   };
 
+  const createTask = (title, author_id) => {
+    const lastTaskID = tasks.value[tasks.value.length-1].id;
+    const newDate = new Date();
+    const newDateStr = `${newDate.getFullYear()}-${newDate.getMonth()+1}-${newDate.getDate()}`;
+
+    const newTask = {
+      id: lastTaskID+1,
+      title,
+      author_id,
+      current_column: 'To do',
+      date_created: newDateStr,
+    };
+
+    tasks.value.push(newTask);
+  };
+
   return {
     tasks,
+    authors,
     statuses,
     tasksByStatus,
     confirmRemoveID,
@@ -78,6 +95,7 @@ export const useTodoStore = defineStore('todoStore', () => {
     addTask,
     updateTaskStatus,
     removeTask,
+    createTask,
   };
 });
 
